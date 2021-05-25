@@ -70,7 +70,7 @@ const sign = async (req, res) =>{
         const rol = response.rows[0].rol
         const token = jwt.sign({id:response.rows[0].id},
         config.SECRET, {expiresIn: 86400})
-        res.json({rol: rol, response: true,token:token})
+        res.json({rol, status:response.rows[0].status,  response: true, token})
     }else{
         res.json({response: false})
     }
