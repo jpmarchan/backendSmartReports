@@ -24,14 +24,16 @@ const createUser = async (req, res) =>{
     const {name, lastname, email, password, rol, status, dni, sex, age} = req.body
 
     const response = await client.query('SELECT id, email status FROM users WHERE email = $1  AND rol = 1',[email])
-    if(response.rows.length > 0)res.status(200).json({message:'email ya existe'})
-    await client.query('INSERT INTO users (name, lastname, email, password, rol, status, dni, sex, age) VALUES ($1, $2, $3 ,$4, $5, $6, $7, $8, $9)', [name, lastname, email, password, rol, status, dni, sex, age])
-    res.json({
-        message:'usuario creado ',
-        name: name,
-        latname: lastname,
-        email: email
-    })
+    if(response.rows.length > 0){
+        res.status(200).json({message:'email ya existe', status: false})
+    }else{
+        await client.query('INSERT INTO users (name, lastname, email, password, rol, status, dni, sex, age) VALUES ($1, $2, $3 ,$4, $5, $6, $7, $8, $9)', [name, lastname, email, password, rol, status, dni, sex, age])
+        res.json({
+            message:'usuario creado ',
+            status: true
+        })
+    }
+
 }
 
 const updateUser = async (req, res) =>{
@@ -70,7 +72,7 @@ const sign = async (req, res) =>{
         const rol = response.rows[0].rol
         const token = jwt.sign({id:response.rows[0].id},
         config.SECRET, {expiresIn: 86400})
-        res.json({rol, status:response.rows[0].status,  response: true, token})
+        res.json({rol, status:response.rows[0].status,  response: true, token, userName: response.rows[0].name, userId: response.rows[0].id})
     }else{
         res.json({response: false})
     }

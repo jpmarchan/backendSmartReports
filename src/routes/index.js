@@ -17,7 +17,7 @@ router.post('/sign', sign)
 // mantenimiento usuarios PACIENTES.
 router.get('/users', [verifyToken, getUsers])
 router.get('/users/:id', [verifyToken, getUsersById])
-router.post('/users', [verifyToken, createUser])
+router.post('/users', [ createUser])
 router.put('/updateUser/:id', [verifyToken, updateUser])
 router.put('/updateUserStatus/:id', [verifyToken, updateStatusUser])
 
