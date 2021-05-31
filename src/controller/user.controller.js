@@ -72,15 +72,13 @@ const sign = async (req, res) =>{
         const rol = response.rows[0].rol
         const token = jwt.sign({id:response.rows[0].id},
         config.SECRET, {expiresIn: 86400})
-        res.json({rol, status:response.rows[0].status,  response: true, token, userName: response.rows[0].name, userId: response.rows[0].id})
+        res.json({rol, status:response.rows[0].status,  response: true, token,
+             userName: response.rows[0].name, userId: response.rows[0].id})
     }else{
         res.json({response: false})
     }
 
 }
-
-
-
 
 
 module.exports = {

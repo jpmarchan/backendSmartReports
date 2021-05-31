@@ -6,9 +6,13 @@ const { getUsers, createUser,
 
 const { getMedics, getMedicById,
     getPatientsByIdMedic, updateUserMedic } = require('../controller/medic.controller')
-    const { asingPatientMedic} = require('../controller/admin.controller')
+
+const { asingPatientMedic} = require('../controller/admin.controller')
+
+const { createReport, getReportByPatient, WatchByReport} = require('../controller/reports.controller')
 
 const  { verifyToken } = require ('../middlewares/authJwt');
+
 
     
 //inicio de sesion
@@ -32,9 +36,10 @@ router.put('/updateUserMedic/:id', [verifyToken, updateUserMedic])
 
 router.put('/asingPatientMedic', [verifyToken, asingPatientMedic])
 
-
-
-
+//Mantenimieto REPORTES.
+router.post('/report', [verifyToken, createReport])
+router.get('/reportByPatient/:id', [verifyToken, getReportByPatient])
+router.get('/WatchByReport/:id', [verifyToken, WatchByReport])
 
 
 
