@@ -39,6 +39,23 @@ CREATE TABLE keyboars_and_meanings(
     fountain VARCHAR(700),
 );
 
+ALTER TABLE "reports_original" 
+  ADD CONSTRAINT fkidmedico
+   FOREIGN KEY (fkidmedico) 
+   REFERENCES "users"(id);
+
+
+   ALTER TABLE "reports_original" 
+  ADD CONSTRAINT fkidpaciente
+   FOREIGN KEY (fkidpaciente) 
+   REFERENCES "users"(id);
+
+   
+   ALTER TABLE "reports_generate" 
+  ADD CONSTRAINT fkidrepororiginal
+   FOREIGN KEY (fkidrepororiginal) 
+   REFERENCES "reports_original"(id);
+
 
 
 
