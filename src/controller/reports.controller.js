@@ -28,6 +28,24 @@ const getReportByPatient = async (req, res) =>{
     res.status(200).json(response.rows)
 
 }
+
+const getReportById = async (req, res) =>{
+
+    const id = req.params.id
+    const response = await client.query('SELECT r.id, r.fecha, r.fkidmedico, r.fkidpaciente, r.status, u.name AS namedoc, u.lastname AS lastnamedoc FROM reports_original AS r INNER JOIN users AS u ON u.id = r.fkidmedico WHERE r.id = $1', [id])
+   
+        response.rows.map(function(obj){
+        var rObj = {};
+        const unixTime = obj.fecha;
+        const date = new Date(unixTime*1000);
+        obj.fecha = date.toLocaleDateString("es-ES")
+        console.log( obj.fecha);
+        return rObj;
+     });
+   
+    res.status(200).json(response.rows)
+
+}
 const WatchByReport = async (req, res) =>{
 
     const id = req.params.id

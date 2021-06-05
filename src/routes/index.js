@@ -9,7 +9,7 @@ const { getMedics, getMedicById,
 
 const { asingPatientMedic} = require('../controller/admin.controller')
 
-const { createReport, getReportByPatient, WatchByReport} = require('../controller/reports.controller')
+const { createReport, getReportByPatient, WatchByReport, getReportById} = require('../controller/reports.controller')
 
 const  { verifyToken } = require ('../middlewares/authJwt');
 
@@ -40,6 +40,7 @@ router.put('/asingPatientMedic', [verifyToken, asingPatientMedic])
 router.post('/report', [verifyToken, createReport])
 router.get('/reportByPatient/:id', [verifyToken, getReportByPatient])
 router.get('/WatchByReport/:id', [verifyToken, WatchByReport])
+router.get('/getReportById/:id', [verifyToken, getReportById])
 
 
 
