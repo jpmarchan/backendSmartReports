@@ -62,6 +62,7 @@ module.exports = {
 
     createReport,
     getReportByPatient,
-    WatchByReport
+    WatchByReport,
+    getReportById
 
 }
