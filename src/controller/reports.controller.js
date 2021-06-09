@@ -32,7 +32,7 @@ const getReportByPatient = async (req, res) =>{
 const getReportById = async (req, res) =>{
 
     const id = req.params.id
-    const response = await client.query('SELECT r.id, r.fecha, r.fkidmedico, r.fkidpaciente, r.status, r.detail, u.name AS namedoc, u.lastname AS lastnamedoc, rg.detail AS detailgenerate, rg.id AS idreportgenerate, rg.status AS statusgenerate FROM reports_original AS r INNER JOIN users AS u ON u.id = r.fkidmedico INNER JOIN reports_generate AS rg ON rg.fkidrepororiginal = r.id WHERE r.id = $1', [id])
+    const response = await client.query('SELECT r.id, r.fecha, r.fkidmedico, r.fkidpaciente, r.detail , r.status, r.detail, u.name AS namedoc, u.lastname AS lastnamedoc, rg.detail AS detailgenerate, rg.id AS idreportgenerate, rg.status AS statusgenerate FROM reports_original AS r INNER JOIN users AS u ON u.id = r.fkidmedico INNER JOIN reports_generate AS rg ON rg.fkidrepororiginal = r.id WHERE r.id = $1', [id])
    
         response.rows.map(function(obj){
         var rObj = {};
