@@ -2,8 +2,6 @@ const jwt = require('jsonwebtoken');
 const config = require('../config')
 const  { client } = require ('../conection');
 
-
-
 // mantenimiento usuarios PACIENTES.
 
 const getUsers = async (req, res) =>{
