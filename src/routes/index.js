@@ -5,7 +5,7 @@ const { getUsers, createUser,
      getUsersById, updateUser, updateStatusUser, sign } = require('../controller/user.controller')
 
 const { getMedics, getMedicById,
-    getPatientsByIdMedic, updateUserMedic } = require('../controller/medic.controller')
+    getPatientsByIdMedic, updateUserMedic, searchPatientsByDni} = require('../controller/medic.controller')
 
 const { asingPatientMedic} = require('../controller/admin.controller')
 
@@ -31,6 +31,9 @@ router.get('/getMedics', [verifyToken, getMedics])
 router.get('/getMedicById/:id', [verifyToken, getMedicById])
 router.get('/getPatientsByIdMedic/:id', [verifyToken, getPatientsByIdMedic])
 router.put('/updateUserMedic/:id', [verifyToken, updateUserMedic])
+router.post('/searchPatientsByDni', [verifyToken, searchPatientsByDni])
+
+
 
 //acciones ADMINISTRADOR.
 
