@@ -15,7 +15,7 @@ const getMedicById = async (req, res) => {
 
 const getPatientsByIdMedic = async (req, res) => {
     const id = req.params.id
-    const response = await client.query('SELECT name, lastname, dni, email, sex, age, especialidad, status  FROM users WHERE fkidmedic = $1 AND rol = 1', [id])
+    const response = await client.query('SELECT id, name, lastname, dni, email, sex, age, especialidad, status  FROM users WHERE fkidmedic = $1 AND rol = 1', [id])
     res.status(200).json(response.rows)
 
 }
@@ -23,18 +23,23 @@ const getPatientsByIdMedic = async (req, res) => {
 const searchPatientsByDni = async (req, res) => {
     const { dni } = req.body
 
-    const response = await client.query('SELECT name, lastname, dni, email, sex, age, status  FROM users WHERE dni LIKE $1 AND rol = 1', [dni])
-    let data = {
-        name: response.rows[0].name,
-        lastname: response.rows[0].lastname,
-        dni: response.rows[0].dni,
-        email: response.rows[0].email,
-        sex: response.rows[0].sex,
-        age: response.rows[0].age,
-        status: response.rows[0].status,
+    const response = await client.query(`SELECT id, name, lastname, dni, email, sex, age, status  FROM users WHERE dni = $1 AND rol = 1`,[dni] )
+    if(response.rows.length > 0){
+        let data = {
+            id: response.rows[0].id,
+            name: response.rows[0].name,
+            lastname: response.rows[0].lastname,
+            dni: response.rows[0].dni,
+            email: response.rows[0].email,
+            sex: response.rows[0].sex,
+            age: response.rows[0].age,
+            status: response.rows[0].status,
+        }
+    
+        res.status(200).json(data)
+    }else{
+        res.status(200).json(false) 
     }
-
-    res.status(200).json(data)
 
 }
 
