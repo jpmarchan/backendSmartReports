@@ -5,7 +5,7 @@ const  { client } = require ('../conection');
 // mantenimiento usuarios PACIENTES.
 
 const getUsers = async (req, res) =>{
-    const response = await client.query('SELECT name, lastname, dni, email, sex, age, status, fkidmedic  FROM users WHERE rol = 1')
+    const response = await client.query('SELECT id, name, lastname, dni, email, sex, age, status, fkidmedic  FROM users WHERE rol = 1')
     res.status(200).json(response.rows)
     console.log(response.rows)
 }
@@ -13,7 +13,7 @@ const getUsers = async (req, res) =>{
 const getUsersById = async (req, res) =>{
     const id = req.params.id
 
-    const response = await client.query('SELECT name, lastname, dni, email, sex, age, status, fkidmedic FROM users WHERE id = $1 AND rol = 1', [id])
+    const response = await client.query('SELECT id, name, lastname, dni, email, sex, age, status, fkidmedic FROM users WHERE id = $1 AND rol = 1', [id])
     res.status(200).json(response.rows)
 
 }
