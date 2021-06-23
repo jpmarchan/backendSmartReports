@@ -3,8 +3,9 @@ const  { client } = require ('../conection');
 
 const createReport = async (req, res) =>{
     const {timestamp, idmedic , idpatient, detail} = req.body
+    var date = timestamp.slice(3, -2);
     const reponse = await client.query('INSERT INTO reports_original (fecha, fkidmedico, fkidpaciente, detail, status) VALUES ($1, $2, $3 ,$4, $5) RETURNING id ',
-     [timestamp, idmedic, idpatient, detail, true])
+     [date, idmedic, idpatient, detail, true])
      const  id  = reponse.rows[0].id;
 
      if(id){
