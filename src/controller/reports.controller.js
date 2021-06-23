@@ -123,7 +123,7 @@ const WatchByReport = async (req, res) =>{
         id])
     res.json({
         message:'visualizado',
-        reponseCode:'00'
+        reponseCode: true
     })   
 
 }
