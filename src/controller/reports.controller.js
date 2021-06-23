@@ -58,7 +58,7 @@ const getReportByPatient = async (req, res) =>{
 const getReportByPatientOne = async (req, res) =>{
 
     const id = req.params.id
-    const response = await client.query('SELECT r.id, r.fecha, r.fkidmedico, r.fkidpaciente, r.status, u.name AS namedoc, u.lastname AS lastnamedoc FROM reports_original AS r INNER JOIN users AS u ON u.id = r.fkidmedico WHERE fkidpaciente = $1  ORDER BY r.id DESC LIMIT 1', [id])
+    const response = await client.query('SELECT r.id, r.fecha, r.fkidmedico, r.fkidpaciente, r.status, u.name AS namedoc, u.lastname AS lastnamedoc FROM reports_original AS r INNER JOIN users AS u ON u.id = r.fkidmedico WHERE fkidpaciente = $1 AND r.status = true ORDER BY r.id DESC LIMIT 1', [id])
    
         response.rows.map(function(obj){
         var rObj = {};
