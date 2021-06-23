@@ -3,12 +3,37 @@ const  { client } = require ('../conection');
 
 const createReport = async (req, res) =>{
     const {timestamp, idmedic , idpatient, detail} = req.body
-    await client.query('INSERT INTO reports_original (fecha, fkidmedico, fkidpaciente, detail, status) VALUES ($1, $2, $3 ,$4, $5)',
+    const reponse = await client.query('INSERT INTO reports_original (fecha, fkidmedico, fkidpaciente, detail, status) VALUES ($1, $2, $3 ,$4, $5) RETURNING id ',
      [timestamp, idmedic, idpatient, detail, true])
-    res.json({
-        responseMessage:'Reporte registrado',
-        reponseCode:'00'
-    })
+     const  id  = reponse.rows[0].id;
+
+     if(id){
+        const reportGenerate =`${detail} reporte generado test`
+
+        const responseGenerate = await client.query('INSERT INTO reports_generate (detail, fkidrepororiginal, status) VALUES ($1, $2, $3) RETURNING id ',
+        [reportGenerate, id, true])
+
+        if(responseGenerate.rows[0].id){
+            res.json({
+                responseMessage:'Reporte registrado',
+                reponseCode: true,
+                idReporOriginal: id
+            })
+         }else{
+            res.json({
+                responseMessage:'Error de registro',
+                reponseCode: false
+            })
+         }
+     }else{
+        res.json({
+            responseMessage:'Error de registro',
+            reponseCode: false
+        })
+     }
+
+
+ 
 }
 
 const getReportByPatient = async (req, res) =>{
