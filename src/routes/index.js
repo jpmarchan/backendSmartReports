@@ -37,6 +37,8 @@ router.post('/searchPatientsByDni', [verifyToken, searchPatientsByDni])
 
 router.put('/asingPatientMedic', [verifyToken, asingPatientMedic])
 router.get('/getKeywords', [verifyToken, getKeywords])
+router.post('/keywordCreate', [verifyToken, keywordCreate])
+
 
 //Mantenimieto REPORTES.
 router.post('/report', [verifyToken, createReport])

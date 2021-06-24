@@ -17,8 +17,18 @@ const getKeywords = async (req, res) => {
 
 }
 
+const keywordCreate = async (req, res) => {
+    const {keyword, meanings , fountain} = req.body
+    await client.query('INSERT INTO keyboars_and_meanings (keyword, meanings, fountain) VALUES ($1, $2, $3) RETURNING id', [keyword, meanings, fountain])
+    res.json({
+        responseMessage:'ya esta manito gaa 7u7',
+        reponseCode: true
+    })
+}
+
 
 module.exports = {
     asingPatientMedic,
-    getKeywords
+    getKeywords,
+    keywordCreate
 }
