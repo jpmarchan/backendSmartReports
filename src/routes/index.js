@@ -7,7 +7,7 @@ const { getUsers, createUser,
 const { getMedics, getMedicById,
     getPatientsByIdMedic, updateUserMedic, searchPatientsByDni} = require('../controller/medic.controller')
 
-const { asingPatientMedic} = require('../controller/admin.controller')
+const { asingPatientMedic, getKeywords} = require('../controller/admin.controller')
 
 const { createReport, getReportByPatient, WatchByReport, getReportById, getReportByPatientOne} = require('../controller/reports.controller')
 
@@ -33,11 +33,10 @@ router.get('/getPatientsByIdMedic/:id', [verifyToken, getPatientsByIdMedic])
 router.put('/updateUserMedic/:id', [verifyToken, updateUserMedic])
 router.post('/searchPatientsByDni', [verifyToken, searchPatientsByDni])
 
-
-
 //acciones ADMINISTRADOR.
 
 router.put('/asingPatientMedic', [verifyToken, asingPatientMedic])
+router.get('/getKeywords', [verifyToken, getKeywords])
 
 //Mantenimieto REPORTES.
 router.post('/report', [verifyToken, createReport])
