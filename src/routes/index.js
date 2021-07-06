@@ -7,7 +7,7 @@ const { getUsers, createUser,
 const { getMedics, getMedicById,
     getPatientsByIdMedic, updateUserMedic, searchPatientsByDni} = require('../controller/medic.controller')
 
-const { asingPatientMedic, getKeywords} = require('../controller/admin.controller')
+const { asingPatientMedic, getKeywords, keywordCreate} = require('../controller/admin.controller')
 
 const { createReport, getReportByPatient, WatchByReport, getReportById, getReportByPatientOne} = require('../controller/reports.controller')
 
