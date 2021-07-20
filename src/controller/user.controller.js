@@ -66,7 +66,6 @@ const sign = async (req, res) =>{
         email,
         password])
     if(response.rows.length > 0){
-        console.log(response.rows)
         const rol = response.rows[0].rol
         const token = jwt.sign({id:response.rows[0].id},
         config.SECRET, {expiresIn: 86400})

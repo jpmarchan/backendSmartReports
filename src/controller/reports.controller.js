@@ -3,13 +3,25 @@ const  { client } = require ('../conection');
 
 const createReport = async (req, res) =>{
     const {timestamp, idmedic , idpatient, detail} = req.body
+    var separado = detail.split(' ');
+    var detailgenerate = separado
+    
+    for (const driver of separado) {
+        const response = await client.query('SELECT keyword, meanings FROM keyboars_and_meanings WHERE keyword = $1', [driver])
+        console.log(response.rows[0]);
+        if(response.rows[0]){
+            detailgenerate.replace(driver, `${driver} "${response.rows[0].meanings}"`);
+        }
+    }
+
+    
     var date = timestamp.slice(0, -3);
     const reponse = await client.query('INSERT INTO reports_original (fecha, fkidmedico, fkidpaciente, detail, status) VALUES ($1, $2, $3 ,$4, $5) RETURNING id ',
      [date, idmedic, idpatient, detail, true])
      const  id  = reponse.rows[0].id;
 
      if(id){
-        const reportGenerate =`${detail} reporte generado test`
+        const reportGenerate = detailgenerate
 
         const responseGenerate = await client.query('INSERT INTO reports_generate (detail, fkidrepororiginal, status) VALUES ($1, $2, $3) RETURNING id ',
         [reportGenerate, id, true])
@@ -32,8 +44,6 @@ const createReport = async (req, res) =>{
             reponseCode: false
         })
      }
-
-
  
 }
 
