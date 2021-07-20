@@ -3,14 +3,18 @@ const  { client } = require ('../conection');
 
 const createReport = async (req, res) =>{
     const {timestamp, idmedic , idpatient, detail} = req.body
-    var separado = detail.split(' ');
+    var ultimo = detail.replace(/,/g, "")
+    var separado = ultimo.split(' ');
+
     var detailgenerate = detail
     
     for (const driver of separado) {
         const response = await client.query('SELECT keyword, meanings FROM keyboars_and_meanings WHERE keyword = $1', [driver])
-        console.log(response.rows[0]);
+ 
         if(response.rows[0]){
-            detailgenerate.replace(driver, `${driver} "${response.rows[0].meanings}"`);
+            detailgenerate = detailgenerate.replace(driver, `${driver} "${response.rows[0].meanings}"`);
+            console.log(detailgenerate)
+
         }
     }
 
