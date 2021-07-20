@@ -4,7 +4,7 @@ const  { client } = require ('../conection');
 const createReport = async (req, res) =>{
     const {timestamp, idmedic , idpatient, detail} = req.body
     var separado = detail.split(' ');
-    var detailgenerate = separado
+    var detailgenerate = detail
     
     for (const driver of separado) {
         const response = await client.query('SELECT keyword, meanings FROM keyboars_and_meanings WHERE keyword = $1', [driver])
