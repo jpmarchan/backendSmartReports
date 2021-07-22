@@ -17,6 +17,15 @@ const getKeywords = async (req, res) => {
 
 }
 
+const getMetrics = async (req, res) => {
+    const responses = await client.query('SELECT m.id, m.count ,m.fkidreport, m.fkidkeyboars, m.fkidhospital, m.idsreports, h.name, k.keyword FROM metrics AS m INNER JOIN hospital AS h ON h.id = m.fkidhospital INNER JOIN keyboars_and_meanings AS k ON k.id = m.fkidkeyboars')
+
+    res.status(200).json(responses.rows)
+
+
+}
+
+
 const keywordCreate = async (req, res) => {
     const {keyword, meanings , fountain} = req.body
     await client.query('INSERT INTO keyboars_and_meanings (keyword, meanings, fountain) VALUES ($1, $2, $3) RETURNING id', [keyword, meanings, fountain])
@@ -30,5 +39,6 @@ const keywordCreate = async (req, res) => {
 module.exports = {
     asingPatientMedic,
     getKeywords,
-    keywordCreate
+    keywordCreate,
+    getMetrics
 }
