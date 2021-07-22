@@ -7,22 +7,37 @@ const createReport = async (req, res) =>{
     var separado = ultimo.split(' ');
 
     var detailgenerate = detail
-    
+    var date = timestamp.slice(0, -3);
+    const user = await client.query('SELECT fkidhospital FROM users WHERE id = $1 AND rol = 2', [idmedic])
+    let idhospital = 0;
+    if(user.rows[0]){
+        idhospital = user.rows[0].fkidhospital
+    }
+    const report = await client.query('INSERT INTO reports_original (fecha, fkidmedico, fkidpaciente, detail, status) VALUES ($1, $2, $3 ,$4, $5) RETURNING id ',
+     [date, idmedic, idpatient, detail, true])
+     const  id  = report.rows[0].id;
+
     for (const driver of separado) {
-        const response = await client.query('SELECT keyword, meanings FROM keyboars_and_meanings WHERE keyword = $1', [driver])
- 
+        const response = await client.query('SELECT id, keyword, meanings FROM keyboars_and_meanings WHERE keyword = $1', [driver])
+
         if(response.rows[0]){
+            const metrics = await client.query('SELECT id, count ,fkidreport, fkidkeyboars, fkidhospital, idsreports FROM metrics WHERE fkidkeyboars = $1 AND fkidhospital = $2', [response.rows[0].id, idhospital])
+            if(metrics.rows[0]){
+                const reportsids = metrics.rows[0].idsreports.id
+                reportsids.push(id)
+                    const newids = {id:reportsids}
+                await client.query('UPDATE  metrics SET count = $1, idsreports = $2 WHERE id = $3', [metrics.rows[0].count + 1, newids, metrics.rows[0].id]);
+            }else{
+                console.log("insert")
+                const idreports = {id:[id]}
+                await client.query('INSERT INTO metrics (count ,fkidreport, fkidkeyboars, fkidhospital, idsreports) VALUES ($1, $2, $3, $4, $5) RETURNING id ', [1, id, response.rows[0].id, idhospital, idreports])
+            }
+
             detailgenerate = detailgenerate.replace(driver, `${driver} "${response.rows[0].meanings}"`);
-            console.log(detailgenerate)
 
         }
     }
 
-    
-    var date = timestamp.slice(0, -3);
-    const reponse = await client.query('INSERT INTO reports_original (fecha, fkidmedico, fkidpaciente, detail, status) VALUES ($1, $2, $3 ,$4, $5) RETURNING id ',
-     [date, idmedic, idpatient, detail, true])
-     const  id  = reponse.rows[0].id;
 
      if(id){
         const reportGenerate = detailgenerate

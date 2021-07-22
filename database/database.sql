@@ -15,6 +15,15 @@ CREATE TABLE hospital(
     direction VARCHAR(40),
     capacity INT
 );
+CREATE TABLE metrics (
+    id SERIAL PRIMARY KEY,
+    count INT,
+    fkidreport INT,
+    fkidkeyboars INT,
+    fkid hospital INT
+);
+
+CREATE TABLE metrics (id SERIAL PRIMARY KEY, count INT, fkidreport INT, fkidkeyboars INT, fkidhospital INT);
 
 CREATE TABLE reports_original(
     id SERIAL PRIMARY KEY,
