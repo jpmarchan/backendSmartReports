@@ -65,6 +65,29 @@ const createReport = async (req, res) =>{
      }
  
 }
+const createReportAnemi = async (req, res) =>{
+    const {timestamp, idmedic , idpatient, detail} = req.body
+    var ultimo = detail.replace(/,/g, "")
+    var separado = ultimo.split(' ');
+
+    var detailgenerate = detail
+    var date = timestamp.slice(0, -3);
+    const user = await client.query('SELECT fkidhospital FROM users WHERE id = $1 AND rol = 2', [idmedic])
+    let idhospital = 0;
+    if(user.rows[0]){
+        idhospital = user.rows[0].fkidhospital
+    }
+    const report = await client.query('INSERT INTO reports_original (fecha, fkidmedico, fkidpaciente, detail, status) VALUES ($1, $2, $3 ,$4, $5) RETURNING id ',
+     [date, idmedic, idpatient, detail, true])
+     const  id  = report.rows[0].id;
+     res.json({
+        responseMessage:'Reporte registrado',
+        reponseCode: true,
+        idReporOriginal: id
+    })
+
+ 
+}
 
 const getReportByPatient = async (req, res) =>{
 
@@ -163,6 +186,7 @@ module.exports = {
     getReportByPatient,
     WatchByReport,
     getReportById,
-    getReportByPatientOne
+    getReportByPatientOne,
+    createReportAnemi
 
 }

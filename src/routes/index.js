@@ -9,7 +9,7 @@ const { getMedics, getMedicById,
 
 const { asingPatientMedic, getKeywords, keywordCreate, getMetrics} = require('../controller/admin.controller')
 
-const { createReport, getReportByPatient, WatchByReport, getReportById, getReportByPatientOne} = require('../controller/reports.controller')
+const { createReport, getReportByPatient, WatchByReport, getReportById, getReportByPatientOne, createReportAnemi} = require('../controller/reports.controller')
 
 const  { verifyToken } = require ('../middlewares/authJwt');
 
@@ -45,6 +45,8 @@ router.get('/getMetrics', [verifyToken, getMetrics])
 
 //Mantenimieto REPORTES.
 router.post('/report', [verifyToken, createReport])
+router.post('/reportAnemi', [verifyToken, createReportAnemi])
+
 router.get('/getReportByPatientOne/:id', [verifyToken, getReportByPatientOne])
 router.get('/reportByPatient/:id', [verifyToken, getReportByPatient])
 router.get('/WatchByReport/:id', [verifyToken, WatchByReport])
