@@ -2,6 +2,7 @@ const  { client } = require ('../conection');
 
 
 const createReport = async (req, res) =>{
+    console.log('reporttt');
     const {timestamp, idmedic , idpatient, detail} = req.body
     var ultimo = detail.replace(/,/g, "")
     var separado = ultimo.split(' ');
