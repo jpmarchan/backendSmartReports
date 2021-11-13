@@ -121,20 +121,23 @@ const getReportByPatientOne = async (req, res) =>{
         return rObj;
      });
      console.log(response.rows)
-     let data =
-     {
-        id: response.rows[0].id,
-        fecha: response.rows[0].fecha,
-        fkidmedico: response.rows[0].fkidmedico,
-        fkidpaciente: response.rows[0].fkidpaciente,
-        detail: response.rows[0].detail,
-        status: response.rows[0].status,
-        namedoc: response.rows[0].namedoc,
-        lastnamedoc: response.rows[0].lastnamedoc,
-
-     }
+     if(response.rows.length){
+        let data =
+        {
+           id: response.rows[0].id,
+           fecha: response.rows[0].fecha,
+           fkidmedico: response.rows[0].fkidmedico,
+           fkidpaciente: response.rows[0].fkidpaciente,
+           detail: response.rows[0].detail,
+           status: response.rows[0].status,
+           namedoc: response.rows[0].namedoc,
+           lastnamedoc: response.rows[0].lastnamedoc,
    
-    res.status(200).json(data)
+        }
+      
+       res.status(200).json(data)
+     }
+    
 
 }
 
