@@ -90,6 +90,22 @@ const createReportAnemi = async (req, res) =>{
  
 }
 
+const createRecetabypatient = async (req, res) =>{
+    const {fecha, iddieta , idreport } = req.body
+
+
+    const report = await client.query('INSERT INTO dietasforpatient (fechafinal, fkiddieta, fkireporte) VALUES ($1, $2, $3 ) RETURNING id ',
+     [fecha, iddieta , idreport])
+     const  id  = report.rows[0].id;
+     res.json({
+        responseMessage:'registrado',
+        reponseCode: true,
+        idcita: id
+    })
+
+ 
+}
+
 const getReportByPatient = async (req, res) =>{
 
     const id = req.params.id
@@ -108,11 +124,41 @@ const getReportByPatient = async (req, res) =>{
 
 }
 
+const getrecetabrreportid = async (req, res) =>{
+
+    const id = req.params.id
+    const response = await client.query('SELECT * FROM dietasforpatient WHERE fkireporte = $1', [id])
+    if(response.rows.length > 0){
+        const response2 = await client.query('SELECT * FROM dietas WHERE id = $1', [response.rows[0].fkiddieta])
+
+        let data =
+        {
+           id: response2.rows[0].id,
+           name: response2.rows[0].name,
+           description: response2.rows[0].description,
+           almuerzo: response2.rows[0].almuerzo,
+           desayuno: response2.rows[0].desayuno,
+           cena: response2.rows[0].cena,
+           ingredientesdesayuno: response2.rows[0].ingredientesdesayuno,
+           ingredientesalmuerzo: response2.rows[0].ingredientesalmuerzo,
+           ingredientescena: response2.rows[0].ingredientescena,
+    
+        }
+       res.status(200).json(data)
+
+    }else{
+        res.status(200).json(response.rows)
+    }
+   
+
+}
+
 const getReportByPatientOne = async (req, res) =>{
 
     const id = req.params.id
     const response = await client.query('SELECT r.id, r.fecha, r.fkidmedico, r.fkidpaciente, r.status, u.name AS namedoc, u.lastname AS lastnamedoc FROM reports_original AS r INNER JOIN users AS u ON u.id = r.fkidmedico WHERE fkidpaciente = $1 AND r.status = true ORDER BY r.id DESC LIMIT 1', [id])
-   
+    console.log(response.rows)
+
         response.rows.map(function(obj){
         var rObj = {};
         const unixTime = obj.fecha;
@@ -120,7 +166,6 @@ const getReportByPatientOne = async (req, res) =>{
         obj.fecha = date.toLocaleDateString("es-ES")
         return rObj;
      });
-     console.log(response.rows)
      if(response.rows.length){
         let data =
         {
@@ -191,6 +236,8 @@ module.exports = {
     WatchByReport,
     getReportById,
     getReportByPatientOne,
-    createReportAnemi
+    createReportAnemi,
+    createRecetabypatient,
+    getrecetabrreportid
 
 }

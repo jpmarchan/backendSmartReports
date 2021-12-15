@@ -9,9 +9,12 @@ const verifyToken = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, config.SECRET);
+    console.log(decoded)
     req.userId = decoded.id;
     next();
   } catch (error) {
+    console.log(error)
+
     return res.status(401).json({ message: "Unauthorized!" });
   }
 };

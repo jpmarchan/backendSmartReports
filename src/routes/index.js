@@ -7,9 +7,9 @@ const { getUsers, createUser,
 const { getMedics, getMedicById,
     getPatientsByIdMedic, updateUserMedic, searchPatientsByDni} = require('../controller/medic.controller')
 
-const { asingPatientMedic, getKeywords, keywordCreate, getMetrics} = require('../controller/admin.controller')
+const { asingPatientMedic, getKeywords, keywordCreate, getMetrics, getDietas, getDietaById} = require('../controller/admin.controller')
 
-const { createReport, getReportByPatient, WatchByReport, getReportById, getReportByPatientOne, createReportAnemi} = require('../controller/reports.controller')
+const { createReport, getReportByPatient, WatchByReport, getReportById, getReportByPatientOne, createReportAnemi, createRecetabypatient, getrecetabrreportid} = require('../controller/reports.controller')
 
 const  { verifyToken } = require ('../middlewares/authJwt');
 
@@ -22,7 +22,7 @@ router.post('/sign', sign)
 router.get('/users', [verifyToken, getUsers])
 router.get('/users/:id', [verifyToken, getUsersById])
 router.post('/users', [ createUser])
-router.put('/updateUser/:id', [verifyToken, updateUser])
+router.post('/updateUser', [verifyToken, updateUser])
 router.put('/updateUserStatus/:id', [verifyToken, updateStatusUser])
 
 // mantenimiento usuarios MEDICOS.
@@ -40,11 +40,17 @@ router.get('/getKeywords', [verifyToken, getKeywords])
 router.post('/keywordCreate', [verifyToken, keywordCreate])
 router.get('/getMetrics', [verifyToken, getMetrics])
 
+router.get('/getDietas', [verifyToken, getDietas])
+router.get('/getDietaById/:id', [verifyToken, getDietaById])
+router.get('/getDietaByIdreport/:id', [verifyToken, getrecetabrreportid])
+
 
 
 
 //Mantenimieto REPORTES.
 router.post('/report', [verifyToken, createReport])
+router.post('/createreceta', [verifyToken, createRecetabypatient])
+
 router.post('/reportAnemi', [verifyToken, createReportAnemi])
 
 router.get('/getReportByPatientOne/:id', [verifyToken, getReportByPatientOne])

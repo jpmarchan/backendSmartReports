@@ -23,7 +23,7 @@ const getPatientsByIdMedic = async (req, res) => {
 const searchPatientsByDni = async (req, res) => {
     const { dni } = req.body
 
-    const response = await client.query(`SELECT id, name, lastname, dni, email, sex, age, status, fkidmedic  FROM users WHERE dni = $1 AND rol = 1`,[dni] )
+    const response = await client.query(`SELECT id, name, lastname, dni, email, sex, age, status, aneminum, fkidmedic  FROM users WHERE dni = $1 AND rol = 1`,[dni] )
     if(response.rows.length > 0){
         let data = {
             id: response.rows[0].id,
@@ -34,6 +34,7 @@ const searchPatientsByDni = async (req, res) => {
             sex: response.rows[0].sex,
             age: response.rows[0].age,
             status: response.rows[0].status,
+            aneminum: response.rows[0].aneminum,
             fkidmedic: response.rows[0].fkidmedic,
 
         }

@@ -25,6 +25,37 @@ const getMetrics = async (req, res) => {
 
 }
 
+const getDietas = async (req, res) =>{
+
+    const response = await client.query('SELECT * FROM dietas')
+    console.log(response.rows)
+   
+    res.status(200).json(response.rows)
+
+}
+
+const getDietaById = async (req, res) =>{
+
+    const id = req.params.id
+    const response = await client.query('SELECT * FROM dietas WHERE id = $1 ', [id])
+
+    let data =
+     {
+        id: response.rows[0].id,
+        name: response.rows[0].name,
+        description: response.rows[0].description,
+        almuerzo: response.rows[0].almuerzo,
+        desayuno: response.rows[0].desayuno,
+        cena: response.rows[0].cena,
+        ingredientesdesayuno: response.rows[0].ingredientesdesayuno,
+        ingredientesalmuerzo: response.rows[0].ingredientesalmuerzo,
+        ingredientescena: response.rows[0].ingredientescena,
+ 
+     }
+    res.status(200).json(data)
+
+}
+
 
 const keywordCreate = async (req, res) => {
     const {keyword, meanings , fountain} = req.body
@@ -40,5 +71,7 @@ module.exports = {
     asingPatientMedic,
     getKeywords,
     keywordCreate,
-    getMetrics
+    getMetrics,
+    getDietas,
+    getDietaById
 }

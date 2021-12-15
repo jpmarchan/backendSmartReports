@@ -35,17 +35,16 @@ const createUser = async (req, res) =>{
 }
 
 const updateUser = async (req, res) =>{
-    const id = req.params.id
-    const {name, lastname, email, password, rol, status, dni, sex, age} = req.body
-    await client.query('UPDATE  users SET name = $1, email = $2, lastname = $3, dni = $4, sex = $5, age = $6 WHERE id = $7 AND rol = 1', [name,
-        email,
-        lastname,
-        dni,
+    const {sex, age, departament,id} = req.body
+    await client.query('UPDATE  users SET sex = $1, age = $2, departament = $3  WHERE id = $4 AND rol = 1', [
         sex,
         age,
-        id])
+        departament,
+        id,
+        ])
     res.json({
-        message:'usuario actualizado '
+        message:'usuario actualizado',
+        status:true
     })
 }
 
@@ -70,7 +69,7 @@ const sign = async (req, res) =>{
         const token = jwt.sign({id:response.rows[0].id},
         config.SECRET, {expiresIn: 86400})
         res.json({rol, status:response.rows[0].status,  response: true, token,
-             userName: response.rows[0].name, userId: response.rows[0].id})
+             userName: response.rows[0].name, userId: response.rows[0].id, age: response.rows[0].age, departament: response.rows[0].departament})
     }else{
         res.json({response: false})
     }
