@@ -18,6 +18,14 @@ const getUsersById = async (req, res) =>{
 
 }
 
+const deleteUsersById = async (req, res) =>{
+    const id = req.params.id
+
+    const response = await client.query('DELETE FROM users WHERE id = $1', [id])
+    res.status(200).json(response.rows)
+
+}
+
 const createUser = async (req, res) =>{
     const {name, lastname, email, password, rol, status, dni, sex, age} = req.body
 
@@ -83,5 +91,6 @@ module.exports = {
     getUsersById,
     updateUser,
     updateStatusUser,
-    sign
+    sign,
+    deleteUsersById
 }

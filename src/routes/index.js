@@ -2,7 +2,7 @@ const {Router} = require('express')
 const router = Router()
 
 const { getUsers, createUser,
-     getUsersById, updateUser, updateStatusUser, sign } = require('../controller/user.controller')
+     getUsersById, updateUser, updateStatusUser, sign, deleteUsersById } = require('../controller/user.controller')
 
 const { getMedics, getMedicById,
     getPatientsByIdMedic, updateUserMedic, searchPatientsByDni} = require('../controller/medic.controller')
@@ -24,6 +24,7 @@ router.get('/users/:id', [verifyToken, getUsersById])
 router.post('/users', [ createUser])
 router.post('/updateUser', [verifyToken, updateUser])
 router.put('/updateUserStatus/:id', [verifyToken, updateStatusUser])
+router.delete('/deleteUser/:id', [ deleteUsersById])
 
 // mantenimiento usuarios MEDICOS.
 
